@@ -8,11 +8,12 @@ class Company:
         return self.sales - self.cost
 
 
-company_A = Company(100, 80, 10)
+company_A = Company(100, 80, 10)    # Companyクラスのインスタンスを生成、初期化。引数は sales, cost, persons で変数となる部分
 company_B = Company(40, 60, 20)
 
-print(company_A.sales)
+print(company_A.sales)      # Companyクラスのインスタンスの sales 変数を表示
 print(company_A.get_profit())
 
-company_A.sales = 80
-print(company_A.sales)
+sales_A = company_A.sales
+sales_B = company_B.sales
+print(sales_A, sales_B)

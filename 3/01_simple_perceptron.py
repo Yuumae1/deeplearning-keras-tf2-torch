@@ -8,10 +8,11 @@ import numpy as np
 class SimplePerceptron(object):
     '''
     単純パーセプトロン
+    パーセプトロンを実装するうえで必要な関数をまとめておく（step関数はクラス外に定義）
     '''
     def __init__(self, input_dim):
         self.input_dim = input_dim
-        self.w = np.random.normal(size=(input_dim,))
+        self.w = np.random.normal(size=(input_dim,))    # 正規分布に従う乱数で初期化
         self.b = 0.
 
     def forward(self, x):
@@ -27,7 +28,7 @@ class SimplePerceptron(object):
         return dw, db
 
 
-def step(x):
+def step(x):                # ステップ関数はモデルによらず用いられるため、クラス外に定義
     return 1 * (x > 0)
 
 

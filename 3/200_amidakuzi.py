@@ -1,9 +1,7 @@
 '''
-3.4.3 ロジスティック回帰
+あみだくじをシグモイド関数で実装する
 '''
-
 import numpy as np
-
 
 class LogisticRegression(object):
     '''
@@ -14,11 +12,12 @@ class LogisticRegression(object):
         self.w = np.random.normal(size=(input_dim,))
         self.b = 0.
 
-    def __call__(self, x):      # __call__: model.forward(x) の代わりに model(x) と省略して書ける
+    def __call__(self, x):
         return self.forward(x)
 
     def forward(self, x):
-        return sigmoid(np.matmul(x, self.w) + self.b)
+        y = sigmoid(np.matmul(x, self.w) + self.b)
+        return y
 
     def compute_gradients(self, x, t):
         y = self.forward(x)
@@ -28,10 +27,8 @@ class LogisticRegression(object):
 
         return dw, db
 
-
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
-
 
 if __name__ == '__main__':
     np.random.seed(123)
@@ -39,41 +36,42 @@ if __name__ == '__main__':
     '''
     1. データの準備
     '''
-    # OR
-    x = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])      # 入力
-    t = np.array([0, 1, 1, 1])                          # 出力
-
+    # あみだくじ設計図（入力, 出力）= (4, 4)
+    x = np.array([[0, 0, 0, 0], [1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
+    t = np.array([[0, 0, 0, 1], [0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, 0]])
+    
     '''
     2. モデルの構築
     '''
-    model = LogisticRegression(input_dim=2)
-
+    model = LogisticRegression(input_dim=4)
+    
     '''
     3. モデルの学習
     '''
-    def compute_loss(t, y):     # 交差エントロピー誤差, バッチ学習なのでデータ数で割る必要はない
+    def compute_loss(t, y):
         return (-t * np.log(y) - (1 - t) * np.log(1 - y)).sum()
-
+    
     def train_step(x, t):
         dw, db = model.compute_gradients(x, t)
         model.w = model.w - 0.1 * dw
         model.b = model.b - 0.1 * db
         loss = compute_loss(t, model(x))
         return loss
-
-    epochs = 10000
-
-    for epoch in range(epochs):
-        train_loss = train_step(x, t)  # バッチ学習
-
-        if epoch % 1000 == 0 or epoch == epochs - 1:
+    
+    for epoch in range(1, 10000):
+        loss = train_step(x, t)
+        if epoch % 100 == 0:
             print('epoch: {}, loss: {:.3f}'.format(
-                epoch+1,
-                train_loss
+                epoch,
+                loss
             ))
-
+    
     '''
     4. モデルの評価
     '''
     for input in x:
-        print('{} => {:.3f}'.format(input, model(input)))
+        print(model(input))
+    print(t)
+        
+    
+    

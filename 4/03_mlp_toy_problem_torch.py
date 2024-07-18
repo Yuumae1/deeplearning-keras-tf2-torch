@@ -86,11 +86,11 @@ if __name__ == '__main__':
             end = start + batch_size
             loss = train_step(x_[start:end], t_[start:end])
             train_loss += loss.item()
-
-        print('epoch: {}, loss: {:.3}'.format(
-            epoch+1,
-            train_loss
-        ))
+        if epoch % 10 == 0:
+            print('epoch: {}, loss: {:.3}'.format(
+                epoch+1,
+                train_loss
+            ))
 
     '''
     4. モデルの評価
