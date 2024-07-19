@@ -47,7 +47,7 @@ class Layer(object):
         return self.forward(x)
 
     def forward(self, x):
-        self._input = x
+        self._input = x # 逆伝播のために入力を保持。「クラス内でのみで参照・使用されるもの」はアンダースコアをつける
         self._pre_activation = np.matmul(x, self.W) + self.b
         return self.activation(self._pre_activation)
 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
     def train_step(x, t):
         y = model(x)
-        for i, layer in enumerate(model.layers[::-1]):
+        for i, layer in enumerate(model.layers[::-1]):  # enumerate()でインデックスを取得し、[::-1]で逆順にループ
             if i == 0:
                 delta = y - t
             else:

@@ -1,5 +1,6 @@
 '''
 3.7.3 簡単な実験
+toy problem…2値分類を月型のデータセットで行う
 '''
 
 import numpy as np
@@ -26,7 +27,7 @@ if __name__ == '__main__':
     '''
     2. モデルの構築
     '''
-    # model = MLP(2, 2, 1)
+    #model = MLP(2, 2, 1)    # input_dim, hidden_dim, output_dim
     model = MLP(2, 3, 1)
 
     '''
@@ -76,6 +77,6 @@ if __name__ == '__main__':
     '''
     4. モデルの評価
     '''
-    preds = model(x_test) > 0.5
-    acc = accuracy_score(t_test, preds)
+    preds = model(x_test) > 0.5         # 0.5以上ならTrue, 0.5未満ならFalse
+    acc = accuracy_score(t_test, preds) # accuracy_scoreは正解率を計算する関数
     print('acc.: {:.3f}'.format(acc))

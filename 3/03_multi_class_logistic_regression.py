@@ -48,13 +48,12 @@ if __name__ == '__main__':
     x1 = np.random.randn(n, M) + np.array([0, 10])
     x2 = np.random.randn(n, M) + np.array([5, 5])
     x3 = np.random.randn(n, M) + np.array([10, 0])
-    t1 = np.array([[1, 0, 0] for i in range(n)])
+    t1 = np.array([[1, 0, 0] for i in range(n)])    # 2次元配列で[1, 0, 0]をn個並べる
     t2 = np.array([[0, 1, 0] for i in range(n)])
     t3 = np.array([[0, 0, 1] for i in range(n)])
-
     x = np.concatenate((x1, x2, x3), axis=0)
     t = np.concatenate((t1, t2, t3), axis=0)
-
+    
     '''
     2. モデルの構築
     '''
@@ -74,7 +73,7 @@ if __name__ == '__main__':
         loss = compute_loss(t, model(x))
         return loss
 
-    epochs = 10
+    epochs = 1
     batch_size = 50
     n_batches = x.shape[0] // batch_size
 
@@ -103,3 +102,7 @@ if __name__ == '__main__':
     classified = \
         np.argmax(t_[0:5], axis=1) == np.argmax(preds[0:5], axis=1)
     print('Prediction matched:', classified)
+    
+    # 分類直線の表示
+    print('W:', model.W)
+    print('b:', model.b)
