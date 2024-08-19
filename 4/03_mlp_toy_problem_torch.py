@@ -17,15 +17,15 @@ class MLP(nn.Module):
     多層パーセプトロン
     '''
     def __init__(self, input_dim, hidden_dim, output_dim):
-        super().__init__()
+        super().__init__()  # 親のクラスが nn.Module であるためコンストラクタをオーバーライドする
         self.l1 = nn.Linear(input_dim, hidden_dim)
         self.a1 = nn.Sigmoid()
         self.l2 = nn.Linear(hidden_dim, output_dim)
         self.a2 = nn.Sigmoid()
 
-        self.layers = [self.l1, self.a1, self.l2, self.a2]
+        self.layers = [self.l1, self.a1, self.l2, self.a2]  # 層数が多い場合、self.layersに格納したほうがわかりやすい
 
-    def forward(self, x):
+    def forward(self, x):                       # __call__メソッドは不要
         for layer in self.layers:
             x = layer(x)
 
@@ -50,12 +50,12 @@ if __name__ == '__main__':
     '''
     2. モデルの構築
     '''
-    model = MLP(2, 3, 1).to(device)
+    model = MLP(2, 3, 1).to(device)  # モデルをGPUに転送
 
     '''
     3. モデルの学習
     '''
-    criterion = nn.BCELoss()
+    criterion = nn.BCELoss()    # BCE: binary cross entropy
     optimizer = optimizers.SGD(model.parameters(), lr=0.1)
 
     def compute_loss(t, y):
@@ -65,9 +65,9 @@ if __name__ == '__main__':
         model.train()
         preds = model(x)
         loss = compute_loss(t, preds)
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+        optimizer.zero_grad()   # 勾配の初期化
+        loss.backward()         # 勾配計算
+        optimizer.step()        # パラメータ更新
 
         return loss
 
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     for epoch in range(epochs):
         train_loss = 0.
         x_, t_ = shuffle(x_train, t_train)
-        x_ = torch.Tensor(x_).to(device)
+        x_ = torch.Tensor(x_).to(device)    # torch の GPU 計算が可能となる特有の型を指定する
         t_ = torch.Tensor(t_).to(device)
 
         for n_batch in range(n_batches):
